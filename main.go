@@ -25,7 +25,8 @@ type DomainRequest struct {
 type Config map[string]DomainRequest
 
 // configFilePath is the path to the config file
-var configFilePath = flag.String("url", "./config.json", "url to fetch")
+var configDir = "/curle"
+var configFilePath = "/curle/domain.json"
 
 // tartget is the url to fetch
 var target = flag.String("target", "", "the target url")
@@ -104,9 +105,34 @@ func validateTarget(target string, config Config) bool {
 	return false
 }
 
+func init() {
+  flag.Parse()
+  userConfigDir, err := os.UserConfigDir()
+  if err != nil {
+    panic(err)
+  }
+  configFilePath = userConfigDir + configFilePath
+  configDir = userConfigDir + configDir
+  
+  // check config file
+  // if _, err := os.Stat(configDir); os.IsNotExist(err){
+  //   err = os.Mkdir(configDir, 755)
+  //   if err != nil {
+  //     panic(err)
+  //   }
+  // }
+
+  // crate configFile if not exists
+  if _, err := os.Stat(configFilePath); os.IsNotExist(err) {
+    if err != nil {
+      fmt.Println("The `~/.config/curle/domain.json` file does not exist. Please create it")
+      os.Exit(1)
+    }
+  }
+}
+
 func main() {
-	flag.Parse()
-	config := getConfig(*configFilePath)
+	config := getConfig(configFilePath)
     fmt.Println("asdadasdd")
 	fmt.Println(config)
 	ok := validateTarget(*target, config)

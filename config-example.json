@@ -1,0 +1,37 @@
+{
+  "test": {
+    "requests": {
+      "home": {
+        "url": "http://localhost:8080",
+        "method": "GET"
+      }
+    }
+  },
+  "json": {
+    "requests": {
+      "home": {
+        "url": "https://randomuser.me/api",
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "method": "GET"
+      }
+    }
+  },
+  "header": {
+    "variables": {
+      "jwt-token": "jwt"
+    },
+    "requests": {
+      "home": {
+        "url": "https://webhook.site/e9ff2f87-14a9-400c-b62b-607558acead1",
+        "headers": {
+          "Content-Type": "application/json",
+          "Token": "12345",
+          "Jwt": "${jwt-token}"
+        },
+        "method": "GET"
+      }
+    }
+  }
+}
